@@ -1,0 +1,99 @@
+{{ include('partial/_header.twig')}}
+
+<section class="hero is-artist is-fullheight" style="background: url({{ attribute(artiste.image[4], '#text')}}) no-repeat center center; background-size:cover;">
+  <div class="hero-body">
+    <div class="container has-text-left">
+      <h1>{{ artiste.name }} <i class="fa fa-heart-o" aria-hidden="true"></i> </h1>
+      <div class="stats">
+        <h2>Player <br> <span>{{ artiste.stats.playcount }}</span> </h2>
+        <h2>Listeners <br> <span>{{ artiste.stats.listeners }}</span></h2>
+        <h2>
+          {% if count is null %}
+            Pas de rechercher sur l'ariste.
+          {% else %}
+            Déjà {{ count.count }} on rechercher cet artiste.
+          {% endif %}
+        </h2>
+      </div>
+      {% for tag in artiste.tags.tag %}
+        <span class="tag is-dark tags">{{ tag.name|title }}</span>
+      {% endfor %}
+      <p class="syno">{{ artiste.bio.summary|length > 400 ? artiste.bio.summary|slice(0, 400) ~ ' [...]' : artiste.bio.summary }}</p>
+      <div class="similar">
+        {% for similar in artiste.similar.artist %}
+            {# similar.name|title #}
+          <img src="{{ attribute(similar.image[1], '#text') }}">
+        {% endfor %}
+      </div>
+      <div class="discover">
+        <button type="button" class="toptitre">Découvrir les meilleures titres</button>
+        <button type="button" class="topalbums">Découvrir les meilleures albums</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-titre is-fullheight">
+  <div class="hero-body">
+    <div class="container has-text-left">
+      <button type="button" class="return-toptitre">Revenir en arrière</button>
+      <h1>Les meilleures titres de {{ artiste.name }}</h1>
+      <div class="titre-list">
+        {% for music in tracks|slice(0, 5)  %}
+          <div class="box">
+            <img src="{{ attribute(music.image[1], '#text') }}" alt="Titre" />
+            <h1 class="name"> {{ music.name }}</h1>
+            <p class="playcount">{{ music.playcount }}</p>
+            <p class="listeners">{{ music.listeners }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-album is-fullheight">
+  <div class="hero-body">
+    <div class="container has-text-left">
+      <button type="button" class="return-topalbum">Revenir en arrière</button>
+      <h1>Les meilleures albums de {{ artiste.name }}</h1>
+      <div class="titre-list">
+        {% for album in albums|slice(0, 5)  %}
+          <div class="box">
+            <img src="{{ attribute(album.image[1], '#text') }}" alt="Titre" />
+            <h1 class="name"> {{ album.name }}</h1>
+            <p class="playcount">{{ album.playcount }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if artiste.ontour == 1 %}
+  <span class="tag is-danger is-large on-tour">ON TOUR</span>
+{% endif %}
+
+{% block javascripts %}
+    <script>
+      var toptitre      = document.querySelector('.toptitre');
+      var topalbum      = document.querySelector('.topalbums');
+      var titreSection  = document.querySelector('.is-titre');
+      var albumSection  = document.querySelector('.is-album');
+      var returnTopTitre = document.querySelector('.return-toptitre');
+      var returnTopAlbum = document.querySelector('.return-topalbum');
+
+      toptitre.addEventListener('click', function () {
+        titreSection.style.transform = 'translate3d(0,-100%,0)';
+      });
+      returnTopTitre.addEventListener('click', function () {
+        titreSection.style.transform = 'translate3d(-100%,-100%,0)';
+      });
+      topalbum.addEventListener('click', function () {
+        albumSection.style.transform = 'translate3d(0,-200%,0)';
+      });
+      returnTopAlbum.addEventListener('click', function () {
+        albumSection.style.transform = 'translate3d(100%,-200%,0)';
+      });
+    </script>
+{% endblock %}

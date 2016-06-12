@@ -1,0 +1,14 @@
+{
+  "autoload": {
+     "psr-4": {
+         "Helpers\\"      : "helpers/",
+         "Models\\"       : "models/",
+         "Controllers\\"  : "controllers/"
+     }
+   },
+    "require": {
+        "silex/silex": "~2.0",
+        "twig/twig": "^1.24",
+        "doctrine/dbal": "~2.2"
+    }
+}

@@ -1,0 +1,20 @@
+{{ include('partial/_header.twig')}}
+
+<ul id="photo-wall">
+  {% for artist in TopArtist %}
+    <li><img src="{{ attribute(artist.image[3], '#text') }}" /></li>
+  {% endfor %}
+  {% for artist in TopArtist %}
+    <li><img src="{{ attribute(artist.image[3], '#text') }}" /></li>
+  {% endfor %}
+</ul>
+
+<div class="overlay"></div>
+
+<div class="search">
+  <h1>Trouver un artiste</h1>
+  <form action="search" method="post">
+    <input type="text" name="artist" placeholder="Entrer le nom d'un artiste">
+    <button type="submit">Rechercher</button>
+  </form>
+</div>
